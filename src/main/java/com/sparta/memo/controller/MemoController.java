@@ -42,4 +42,29 @@ public class MemoController {
 
         return responseList;
     }
+
+    @PutMapping("/memos/{id}")
+    public Long updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
+        // Existence check
+        if (memoList.containsKey(id)) {
+            Memo memo = memoList.get(id);
+            // update
+            memo.update(requestDto);
+            return id;
+        } else {
+            throw new IllegalArgumentException("선택한 메모가 존재하지 않습니다.");
+        }
+    }
+
+    @DeleteMapping("/memos/{id}")
+    public Long deleteMemo(@PathVariable Long id) {
+        // Existence check
+        if (memoList.containsKey(id)) {
+            // delete
+            memoList.remove(id);
+            return id;
+        } else {
+            throw new IllegalArgumentException("선택한 메모가 존재하지 않습니다.");
+        }
+    }
 }
